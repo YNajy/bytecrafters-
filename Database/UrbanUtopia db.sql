@@ -18,7 +18,8 @@ CREATE TABLE Customers (
     Email VARCHAR(100) UNIQUE,
     Password VARCHAR(100),
     City VARCHAR(100),
-    Phone VARCHAR(20)
+    Phone VARCHAR(20),
+    Location VARCHAR(255)
 );
 ALTER TABLE Customers
 ADD COLUMN RegistrationID INT;
