@@ -1,4 +1,15 @@
+DROP DATABASE IF EXISTS urbanutopia;
+CREATE DATABASE urbanutopia;
 USE urbanutopia;
+
+CREATE TABLE Registration (
+    UserID INT PRIMARY KEY AUTO_INCREMENT,
+    FirstName VARCHAR(50),
+    LastName VARCHAR(50),
+    Email VARCHAR(100) UNIQUE,
+    Password VARCHAR(100),
+    RegistrationDate DATETIME
+);
 
 CREATE TABLE Customers (
     CustomerID INT PRIMARY KEY AUTO_INCREMENT,
@@ -6,10 +17,7 @@ CREATE TABLE Customers (
     LastName VARCHAR(50),
     Email VARCHAR(100) UNIQUE,
     Password VARCHAR(100),
-    Address VARCHAR(255),
     City VARCHAR(100),
-    State VARCHAR(100),
-    ZipCode VARCHAR(20),
     Phone VARCHAR(20)
 );
 ALTER TABLE Customers
@@ -43,8 +51,9 @@ CREATE TABLE Products (
     Name VARCHAR(255),
     Description TEXT,
     Price DECIMAL(10, 2),
-    Size VARCHAR(20), -- Added column for size
-    Category ENUM('Women Clothing', 'Men Clothing')
+    Size VARCHAR(20), 
+    Category ENUM('Women Clothing', 'Men Clothing'),
+    Available INT DEFAULT 0
 );
 
 
@@ -53,7 +62,7 @@ CREATE TABLE ShoppingCart (
     CustomerID INT,
     ProductID INT,
     Quantity INT,
-    Size VARCHAR(20), -- Added column for size
+    Size VARCHAR(20),
     FOREIGN KEY (CustomerID) REFERENCES Customers(CustomerID),
     FOREIGN KEY (ProductID) REFERENCES Products(ProductID)
 );
@@ -74,7 +83,7 @@ CREATE TABLE OrderDetails (
     OrderID INT,
     ProductID INT,
     Quantity INT,
-    Size VARCHAR(20), -- Added column for size
+    Size VARCHAR(20),
     Price DECIMAL(10, 2),
     FOREIGN KEY (OrderID) REFERENCES Orders(OrderID),
     FOREIGN KEY (ProductID) REFERENCES Products(ProductID)
@@ -95,16 +104,3 @@ ALTER TABLE Delivery
 ADD COLUMN UserID INT,
 ADD CONSTRAINT fk_delivery_registration FOREIGN KEY (UserID) REFERENCES Registration(UserID);
 
-
-CREATE TABLE Registration (
-    UserID INT PRIMARY KEY AUTO_INCREMENT,
-    FirstName VARCHAR(50),
-    LastName VARCHAR(50),
-    Email VARCHAR(100) UNIQUE,
-    Password VARCHAR(100),
-    RegistrationDate DATETIME
-);
-DROP TABLE IF EXISTS cart;
-DROP TABLE IF EXISTS items;
-DROP TABLE IF EXISTS customer;
-DROP TABLE IF EXISTS employee;
